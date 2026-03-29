@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibhu Mahendru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a26;
+      --text: #e0e0e8;
+      --text-dim: #6b6b80;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --green: #4ade80;
+      --cyan: #22d3ee;
+      --border: #1e1e2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--text-dim); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8rem 2rem 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      gap: 3rem;
+    }
+
+    .hero-content { flex: 1; }
+
+    .hero-image {
+      flex-shrink: 0;
+      width: 300px;
+      height: auto;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      transition: border-color 0.3s;
+    }
+
+    .hero-image img:hover {
+      border-color: var(--accent);
+    }
+
+    .hero-hello {
+      font-size: 0.85rem;
+      color: var(--green);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .hero-hello::before {
+      content: '// ';
+      color: var(--text-dim);
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .hero-name .first { color: var(--text); }
+    .hero-name .last { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      color: var(--text-dim);
+      margin-top: 1.5rem;
+      max-width: 550px;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Sections */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 3rem;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .skill-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .skill-card:hover::before { opacity: 1; }
+
+    .skill-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #f97316;
+    }
+
+    .skill-card p {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.65rem;
+      color: var(--green);
+      background: rgba(74, 222, 128, 0.08);
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .project-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .project-tags span {
+      font-size: 0.65rem;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: gap 0.3s;
+    }
+
+    .project-link:hover { gap: 0.7rem; }
+
+    /* Contact */
+    .contact-section {
+      text-align: center;
+      padding-bottom: 8rem;
+    }
+
+    .contact-section .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .contact-text {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.3rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      color: var(--text);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .contact-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--bg-card-hover);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 300;
+    }
+
+    /* Cursor blink */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 0.8rem 1rem; }
+
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0; }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 5.5rem 1.2rem 2.5rem;
+        gap: 2rem;
+        min-height: auto;
+      }
+
+      .hero-image { width: 180px; order: -1; }
+      .hero-cta { justify-content: center; }
+
+      .hero-name {
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+      }
+
+      .hero-tagline {
+        font-size: 0.8rem;
+        margin: 1rem auto 0;
+      }
+
+      section {
+        padding: 3rem 1.2rem;
+        max-width: 100%;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .skill-card { padding: 1.5rem; }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .project-card { padding: 1.5rem; }
+
+      .contact-section { padding-bottom: 4rem; }
+
+      .contact-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .contact-links a {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+      }
+
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.7rem 1.2rem;
+      }
+
+      footer { font-size: 0.6rem; padding: 1.5rem 1rem; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-name { font-size: 1.8rem; }
+      .hero-image { width: 150px; }
+      .nav-links { gap: 0.5rem; }
+      .nav-links a { font-size: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">vibhu<span>.dev</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="about">
+    <div class="hero-content">
+      <p class="hero-hello">Hello! I'm</p>
+      <h1 class="hero-name">
+        <span class="first">vibhu</span><br>
+        <span class="last">mahendru</span><span class="cursor"></span>
+      </h1>
+      <p class="hero-tagline">
+        I ideate, design and build AI products that grow businesses.
+      </p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">get in touch &rarr;</a>
+        <a href="#projects" class="btn btn-outline">view projects</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="vibhu-hero.jpeg" alt="Vibhu Mahendru">
+    </div>
+  </section>
+
+  <section id="skills">
+    <p class="section-label">// what i'm good at</p>
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">&#9881;</div>
+        <h3>Applied AI &amp; Forward Deployments</h3>
+        <p>6+ years ideating and designing AI products for customers globally.</p>
+        <span class="skill-tag">strategy &amp; execution</span>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">&#9000;</div>
+        <h3>Full Stack Software Engineering</h3>
+        <p>I build across the stack from frontend, backend, LLM layer, DevOps to deployments.</p>
+        <span class="skill-tag">end-to-end delivery</span>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">&#9733;</div>
+        <h3>Thoughtful Leadership</h3>
+        <p>An experienced, decisive leader who motivates teams, challenges the status quo, and drives results through fearless action.</p>
+        <span class="skill-tag">people &amp; culture</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="section-label">// things i've built</p>
+    <h2 class="section-title">Recent Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Relationship CRM &amp; Task Manager</h3>
+        <p>An AI-powered CRM for managing relationships and tasks, featuring Whisper voice transcriptions for hands-free note capture.</p>
+        <div class="project-tags">
+          <span>Next.js</span>
+          <span>TypeScript</span>
+          <span>Python</span>
+          <span>Django</span>
+          <span>AI APIs</span>
+          <span>Whisper</span>
+          <span>Vercel</span>
+        </div>
+        <a href="https://tend-ai-flame.vercel.app/" target="_blank" rel="noopener" class="project-link">view live &rarr;</a>
+      </div>
+      <div class="project-card">
+        <h3>AI Alumni Outreach Agent</h3>
+        <p>50,000+ AI phone calls made automatically, updating alumni information and enabling natural language queries across the network.</p>
+        <div class="project-tags">
+          <span>Retell AI</span>
+          <span>ElevenLabs</span>
+          <span>Next.js</span>
+          <span>TypeScript</span>
+          <span>Python</span>
+          <span>Django</span>
+          <span>RAG</span>
+        </div>
+        <a href="https://mba-connect-flow.lovable.app/directory" target="_blank" rel="noopener" class="project-link">view live &rarr;</a>
+      </div>
+      <div class="project-card">
+        <h3>AI Course Recommender</h3>
+        <p>A tool for LBS students that recommends courses based on their past career choices or future vision, powered by OpenAI.</p>
+        <div class="project-tags">
+          <span>OpenAI APIs</span>
+          <span>Next.js</span>
+          <span>Django</span>
+        </div>
+        <a href="https://admissions-fe.vercel.app/dashboard/electives" target="_blank" rel="noopener" class="project-link">view live &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <p class="section-label">// let's connect</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="contact-text">I'm currently open to new opportunities. Feel free to reach out.</p>
+    <div class="contact-links">
+      <a href="mailto:Vibhumahendru@gmail.com">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        email
+      </a>
+      <a href="https://github.com/vibhumahendru" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        github
+      </a>
+      <a href="https://linkedin.com/in/" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        linkedin
+      </a>
+    </div>
+  </section>
+
+
+  <footer>
+    <p>&copy; 2026 vibhu mahendru &mdash; built with <span style="color: var(--text-dim);">&hearts;</span></p>
+  </footer>
+
+</body>
+</html>
