@@ -503,8 +503,8 @@
     <div class="hero-content">
       <p class="hero-hello">Hello! I'm</p>
       <h1 class="hero-name">
-        <span class="first">vibhu</span><br>
-        <span class="last">mahendru</span><span class="cursor"></span>
+        <span class="first" id="type-first"></span><br>
+        <span class="last" id="type-last"></span><span class="cursor"></span>
       </h1>
       <p class="hero-tagline">
         I ideate, design and build AI products that grow businesses.
@@ -613,6 +613,40 @@
   <footer>
     <p>&copy; 2026 vibhu mahendru &mdash; built with <span style="color: var(--text-dim);">&hearts;</span></p>
   </footer>
+
+  <script>
+    // Typing animation
+    (function() {
+      const first = 'vibhu';
+      const last = 'mahendru';
+      const firstEl = document.getElementById('type-first');
+      const lastEl = document.getElementById('type-last');
+      let i = 0;
+      const speed = 45;
+
+      function typeFirst() {
+        if (i < first.length) {
+          firstEl.textContent += first[i];
+          i++;
+          setTimeout(typeFirst, speed);
+        } else {
+          i = 0;
+          setTimeout(typeLast, 150);
+        }
+      }
+
+      function typeLast() {
+        if (i < last.length) {
+          lastEl.textContent += last[i];
+          i++;
+          setTimeout(typeLast, speed);
+        }
+      }
+
+      setTimeout(typeFirst, 400);
+    })();
+
+  </script>
 
 </body>
 </html>
